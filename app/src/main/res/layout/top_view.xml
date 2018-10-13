@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:translationZ="5dp">
+
+    <TextView
+        android:id="@+id/tvTopDetails"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_vertical"
+        android:text="AppToolbar and second line\nonly when non-collapsed"
+        android:textSize="@dimen/base_text_size"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvCollapsedTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:text="Toolbar title"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTopDetails"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvTopDetails"
+        app:layout_constraintVertical_bias="0.484"
+        tools:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/tvTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_orange_dark"
+        android:paddingLeft="8dp"
+        android:text="this will fade out on collapse"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTopDetails"/>
+
+    <ImageView
+        android:id="@+id/ivTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_toRightOf="@+id/ivTop3"
+        android:src="@drawable/ic_lens_black_24dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTop"/>
+
+    <ImageView
+        android:id="@+id/ivTop2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_lens_black_24dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintStart_toEndOf="@+id/ivTop"
+        app:layout_constraintTop_toBottomOf="@+id/tvTop"/>
+
+    <ImageView
+        android:id="@+id/ivTop3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_lens_black_24dp"
+        android:tint="@color/colorPrimary"
+        app:layout_constraintStart_toEndOf="@+id/ivTop2"
+        app:layout_constraintTop_toBottomOf="@+id/tvTop"/>
+
+    <TextView
+        android:id="@+id/tvPainIsTheArse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="I can hide whenever I want to"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivTop"/>
+
+</android.support.constraint.ConstraintLayout>
