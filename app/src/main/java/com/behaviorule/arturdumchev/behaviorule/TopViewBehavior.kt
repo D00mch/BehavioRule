@@ -65,7 +65,7 @@ class TopInfoBehavior(
                 ),
                 RuledView(
                         tvPainIsTheArse,
-                        BRuleAppear(appearedUntil = GONE_VIEW_THRESHOLD)
+                        BRuleAppear(visibleUntil = GONE_VIEW_THRESHOLD)
                 ),
                 RuledView(
                         tvCollapsedTop,
@@ -73,7 +73,7 @@ class TopInfoBehavior(
                 ),
                 RuledView(
                         tvTop,
-                        BRuleAppear(appearedUntil = GONE_VIEW_THRESHOLD, animationDuration = 100L)
+                        BRuleAppear(visibleUntil = GONE_VIEW_THRESHOLD, animationDuration = 100L)
                 ),
                 imagesRuleFunc(ivTop, LinearInterpolator()),
                 imagesRuleFunc(ivTop2, AccelerateInterpolator(0.7f)),

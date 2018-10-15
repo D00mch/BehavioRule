@@ -60,6 +60,12 @@ abstract class BaseBehaviorRule : BehaviorRule {
     abstract fun perform(offset: Float, details: InitialViewDetails, view: View)
 }
 
+/**
+ * Params [from] and [to] should be in range [0, 1].
+ * @param from do not invoke [rule] when appBar scroll ratio is less than this value
+ * @param to do not invoke [rule] when appBar scroll ratio is more than this value
+ * @param rule will be invoked with ratio from 0 till 1, it will be normalized with [from] and [to]
+ */
 class ThresholdRule(
         private val rule: BehaviorRule,
         private val from: Float,
@@ -67,7 +73,9 @@ class ThresholdRule(
 ) : BehaviorRule {
 
     init {
-        require(rule !is BRuleAppear) { "you should not use ThresholdRule with BRuleAppear" }
+        require(rule !is BRuleAppear) { "You should not use ThresholdRule with BRuleAppear" }
+        require(from < to) { "from should be less the to" }
+        require(from in 0..1 && to in 0..1) { "Params from and to should be in range [0, 1]" }
     }
 
     override fun manage(ratio: Float, details: InitialViewDetails, view: View) {
@@ -87,6 +95,10 @@ class BRuleScale(
         override val interpolator: Interpolator = LinearInterpolator()
 ) : BaseBehaviorRule() {
 
+    init {
+        require(min < max) { "min should be less then max" }
+    }
+
     override fun perform(offset: Float, details: InitialViewDetails, view: View) = with(view) {
         scaleX = offset
         scaleY = offset
@@ -104,6 +116,11 @@ class BRuleAlpha(
         override val interpolator: Interpolator = LinearInterpolator()
 ) : BaseBehaviorRule() {
 
+    init {
+        require(min < max) { "min should be less then max" }
+        require(min in 0..1 && max in 0..1) { "params min and max should be in range [0, 1] " }
+    }
+
     override fun perform(offset: Float, details: InitialViewDetails, view: View) {
         view.alpha = offset
     }
@@ -119,6 +136,10 @@ class BRuleYOffset(
         override val interpolator: Interpolator = LinearInterpolator()
 ) : BaseBehaviorRule() {
 
+    init {
+        require(min < max) { "min should be less then max" }
+    }
+
     override fun perform(offset: Float, details: InitialViewDetails, view: View) {
         view.y = offset + details.y
     }
@@ -133,26 +154,35 @@ class BRuleXOffset(
         override val interpolator: Interpolator = LinearInterpolator()
 ) : BaseBehaviorRule() {
 
+    init {
+        require(min < max) { "min should be less then max" }
+    }
+
     override fun perform(offset: Float, details: InitialViewDetails, view: View) {
         view.x = details.x + offset
     }
 }
 
 /**
- * @param appearedUntil value in range [0, 1]
- * @param reverse if true, view will be hidden in range [0, appearedUntil]
+ * @param visibleUntil value in range [0, 1]
+ * @param reverse if true, view will be hidden in range [0, visibleUntil]
  * @param animationDuration in milliseconds
  * @param alphaForVisibility appear with alpha
  */
 class BRuleAppear(
-        private val appearedUntil: Float,
+        private val visibleUntil: Float,
         private val reverse: Boolean = false,
         private val animationDuration: Long = 0L,
         private val alphaForVisibility: Float = 1f
 ) : BehaviorRule {
 
+    init {
+        require(animationDuration >= 0L)
+        require(alphaForVisibility in 0..1) { "params min and max should be in range [0, 1] " }
+    }
+
     override fun manage(ratio: Float, details: InitialViewDetails, view: View) = with(view) {
-        val shouldAppear = (ratio > appearedUntil).xor(reverse)
+        val shouldAppear = (ratio > visibleUntil).xor(reverse)
         animateAppearance(shouldAppear)
     }
 
@@ -186,4 +216,7 @@ class BRuleAppear(
     }
 }
 
+/**
+ * [from] [to] should be in range [0, 1].
+ */
 fun BehaviorRule.workInRange(from: Float, to: Float): BehaviorRule = ThresholdRule(this, from, to)

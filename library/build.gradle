@@ -25,6 +25,8 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportLib"
     implementation "com.android.support:design:$supportLib"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    testCompile "junit:junit:4.12"
 }
 repositories {
     mavenCentral()
