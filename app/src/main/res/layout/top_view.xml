@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="8dp"
     android:translationZ="5dp">
 
     <TextView
@@ -37,10 +38,11 @@
     <TextView
         android:id="@+id/tvTop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/holo_orange_dark"
-        android:paddingLeft="8dp"
-        android:text="this will fade out on collapse"
+        android:layout_height="20dp"
+        android:paddingLeft="16dp"
+        android:background="#BDBDBD"
+        android:textColor="@android:color/white"
+        android:text="this will disappear on collapse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +57,7 @@
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@+id/ivTop3"
         android:src="@drawable/ic_lens_black_24dp"
-        android:tint="@color/colorPrimary"
+        android:tint="@color/light_teal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTop"/>
 
@@ -67,7 +69,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_lens_black_24dp"
-        android:tint="@color/colorPrimary"
+        android:tint="@color/light_teal"
         app:layout_constraintStart_toEndOf="@+id/ivTop"
         app:layout_constraintTop_toBottomOf="@+id/tvTop"/>
 
@@ -79,7 +81,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/ic_lens_black_24dp"
-        android:tint="@color/colorPrimary"
+        android:tint="@color/light_teal"
         app:layout_constraintStart_toEndOf="@+id/ivTop2"
         app:layout_constraintTop_toBottomOf="@+id/tvTop"/>
 
@@ -90,8 +92,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:text="I can hide whenever I want to"
-        android:textSize="10sp"
+        android:text="badge"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivTop"/>
 

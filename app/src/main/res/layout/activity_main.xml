@@ -47,7 +47,6 @@
         android:id="@+id/nesteScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:srcCompat="@android:drawable/ic_dialog_email"
         tools:context=".ScrollingActivity"
@@ -66,9 +65,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/small_margin"
+        app:backgroundTint="@color/light_teal"
         app:layout_anchor="@id/nesteScroll"
         app:layout_anchorGravity="right"
-        app:srcCompat="@android:drawable/ic_popup_sync"
+        app:srcCompat="@drawable/ic_close_black_24dp"
         />
+    <!--        app:srcCompat="@android:drawable/ic_popup_sync"-->
 
 </android.support.design.widget.CoordinatorLayout>

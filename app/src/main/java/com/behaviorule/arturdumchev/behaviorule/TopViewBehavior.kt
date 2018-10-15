@@ -15,12 +15,11 @@ import com.behaviorule.arturdumchev.library.BRuleAppear
 import com.behaviorule.arturdumchev.library.BRuleScale
 import com.behaviorule.arturdumchev.library.BRuleXOffset
 import com.behaviorule.arturdumchev.library.BRuleYOffset
-import com.behaviorule.arturdumchev.library.BehaviorRule
-import com.behaviorule.arturdumchev.library.InitialViewDetails
-import com.behaviorule.arturdumchev.library.RuledView
-import com.behaviorule.arturdumchev.library.ReverseInterpolator
 import com.behaviorule.arturdumchev.library.BehaviorByRules
+import com.behaviorule.arturdumchev.library.ReverseInterpolator
+import com.behaviorule.arturdumchev.library.RuledView
 import com.behaviorule.arturdumchev.library.pixels
+import com.behaviorule.arturdumchev.library.workInRange
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.top_view.view.*
 
@@ -40,49 +39,47 @@ class TopInfoBehavior(
     override fun View.provideCollapsingToolbar(): CollapsingToolbarLayout = ctlToolbar
     override fun canUpdateHeight(progress: Float): Boolean = progress >= GONE_VIEW_THRESHOLD
 
-    override fun View.setUpViews(): List<RuledView> = listOf(
-            RuledView(
-                    iTopDetails,
-                    BRuleYOffset(
-                            min = pixels(R.dimen.zero),
-                            max = pixels(R.dimen.toolbar_height)
-                    )
-            ),
-            RuledView(
-                    tvTopDetails,
-                    BRuleAlpha(min = 0.6f, max = 1f),
-                    BRuleXOffset(
-                            min = 0f, max = pixels(R.dimen.big_margin),
-                            interpolator = ReverseInterpolator(AccelerateInterpolator())
-                    ),
-                    BRuleYOffset(
-                            min = pixels(R.dimen.zero), max = pixels(R.dimen.dialog_padding),
-                            interpolator = ReverseInterpolator(LinearInterpolator())
-                    ),
-                    BRuleAppear(0.1f),
-                    BRuleScale(min = 0.8f, max = 1f),
-                    object : BehaviorRule {
-                        override fun manage(ratio: Float, details: InitialViewDetails, view: View) {
-                            view.layoutParams = view.layoutParams
-                        }
-                    }
-            ),
-            RuledView(
-                    tvPainIsTheArse,
-                    BRuleAppear(appearedUntil = GONE_VIEW_THRESHOLD)
-            ),
-            RuledView(
-                    tvCollapsedTop,
-                    BRuleAppear(0.1f, true)
-            ),
-            RuledView(
-                    tvTop,
-                    BRuleAppear(appearedUntil = GONE_VIEW_THRESHOLD)
-            ),
-            imagesRuleFunc(ivTop, LinearInterpolator()),
-            imagesRuleFunc(ivTop2, AccelerateInterpolator(0.7f)),
-            imagesRuleFunc(ivTop3, AccelerateInterpolator())
-    )
+    override fun View.setUpViews(): List<RuledView> {
+        val appearedUntil = 0.1f
+        return listOf(
+                RuledView(
+                        iTopDetails,
+                        BRuleYOffset(
+                                min = pixels(R.dimen.zero),
+                                max = pixels(R.dimen.toolbar_height)
+                        )
+                ),
+                RuledView(
+                        tvTopDetails,
+                        BRuleXOffset(
+                                min = 0f, max = pixels(R.dimen.big_margin),
+                                interpolator = ReverseInterpolator(AccelerateInterpolator())
+                        ),
+                        BRuleYOffset(
+                                min = pixels(R.dimen.zero), max = pixels(R.dimen.dialog_padding),
+                                interpolator = ReverseInterpolator(LinearInterpolator())
+                        ),
+                        BRuleAppear(appearedUntil),
+                        BRuleAlpha(min = 0.6f, max = 1f).workInRange(from = appearedUntil, to = 1f),
+                        BRuleScale(min = 0.8f, max = 1f)
+                ),
+                RuledView(
+                        tvPainIsTheArse,
+                        BRuleAppear(appearedUntil = GONE_VIEW_THRESHOLD)
+                ),
+                RuledView(
+                        tvCollapsedTop,
+                        BRuleAppear(appearedUntil, true)
+                ),
+                RuledView(
+                        tvTop,
+                        BRuleAppear(appearedUntil = GONE_VIEW_THRESHOLD, animationDuration = 100L)
+                ),
+                imagesRuleFunc(ivTop, LinearInterpolator()),
+                imagesRuleFunc(ivTop2, AccelerateInterpolator(0.7f)),
+                imagesRuleFunc(ivTop3, AccelerateInterpolator())
+        )
+    }
 
     private fun View.imagesRuleFunc(view: ImageView, interpolator: Interpolator) = RuledView(
             view,

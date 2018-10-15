@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.view.View
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
+import java.util.*
 
 /**
  * @author arturdumchev on 13/10/2018.
@@ -12,7 +13,7 @@ import android.view.animation.LinearInterpolator
 class InitialViewDetails(
         val x: Float,
         val y: Float,
-        val alpha: Float
+        var alpha: Float
 )
 
 class RuledView(
@@ -41,14 +42,40 @@ interface BehaviorRule {
 
 abstract class BaseBehaviorRule : BehaviorRule {
     abstract val interpolator: Interpolator
-    abstract val min: Number
-    abstract val max: Number
+    abstract val min: Float
+    abstract val max: Float
 
     final override fun manage(ratio: Float, details: InitialViewDetails, view: View) {
-        perform(interpolator.getInterpolation(ratio), details, view)
+        val interpolation = interpolator.getInterpolation(ratio)
+        val offset = normalize(
+                oldValue = interpolation,
+                newMin = min, newMax = max
+        )
+        perform(offset, details, view)
     }
 
-    abstract fun perform(ratio: Float, details: InitialViewDetails, view: View)
+    /**
+     * @param offset normalized with range from [min] to [max] with [interpolator]
+     */
+    abstract fun perform(offset: Float, details: InitialViewDetails, view: View)
+}
+
+class ThresholdRule(
+        private val rule: BehaviorRule,
+        private val from: Float,
+        private val to: Float
+) : BehaviorRule {
+
+    init {
+        require(rule !is BRuleAppear) { "you should not use ThresholdRule with BRuleAppear" }
+    }
+
+    override fun manage(ratio: Float, details: InitialViewDetails, view: View) {
+        if (ratio in (from..to)) {
+            val normalization = normalize(ratio, newMin = 0f, newMax = 1f, oldMin = from, oldMax = to)
+            rule.manage(normalization, details, view)
+        }
+    }
 }
 
 /**
@@ -60,14 +87,9 @@ class BRuleScale(
         override val interpolator: Interpolator = LinearInterpolator()
 ) : BaseBehaviorRule() {
 
-    override fun perform(ratio: Float, details: InitialViewDetails, view: View) = with(view) {
-        val size = normalize(
-                oldValue = ratio,
-                newMax = max,
-                newMin = min
-        )
-        scaleX = size
-        scaleY = size
+    override fun perform(offset: Float, details: InitialViewDetails, view: View) = with(view) {
+        scaleX = offset
+        scaleY = offset
         pivotX = 0f
         pivotY = 0f
     }
@@ -81,8 +103,9 @@ class BRuleAlpha(
         override val max: Float,
         override val interpolator: Interpolator = LinearInterpolator()
 ) : BaseBehaviorRule() {
-    override fun perform(ratio: Float, details: InitialViewDetails, view: View) = with(view) {
-        this.alpha = normalize(oldValue = ratio, newMin = min, newMax = max)
+
+    override fun perform(offset: Float, details: InitialViewDetails, view: View) {
+        view.alpha = offset
     }
 }
 
@@ -95,12 +118,9 @@ class BRuleYOffset(
         override val max: Float,
         override val interpolator: Interpolator = LinearInterpolator()
 ) : BaseBehaviorRule() {
-    override fun perform(ratio: Float, details: InitialViewDetails, view: View) = with(view) {
-        val offset = normalize(
-                oldValue = ratio,
-                newMin = min, newMax = max
-        )
-        this.y = offset + details.y
+
+    override fun perform(offset: Float, details: InitialViewDetails, view: View) {
+        view.y = offset + details.y
     }
 }
 
@@ -113,38 +133,43 @@ class BRuleXOffset(
         override val interpolator: Interpolator = LinearInterpolator()
 ) : BaseBehaviorRule() {
 
-    override fun perform(ratio: Float, details: InitialViewDetails, view: View) = with(view) {
-        val offset = normalize(
-                oldValue = ratio,
-                newMin = min, newMax = max
-        )
-        this.x = details.x + offset
+    override fun perform(offset: Float, details: InitialViewDetails, view: View) {
+        view.x = details.x + offset
     }
 }
 
 /**
  * @param appearedUntil value in range [0, 1]
  * @param reverse if true, view will be hidden in range [0, appearedUntil]
+ * @param animationDuration in milliseconds
+ * @param alphaForVisibility appear with alpha
  */
 class BRuleAppear(
         private val appearedUntil: Float,
-        private val reverse: Boolean = false
+        private val reverse: Boolean = false,
+        private val animationDuration: Long = 0L,
+        private val alphaForVisibility: Float = 1f
 ) : BehaviorRule {
 
-    private val animationDuration = 0L
-
     override fun manage(ratio: Float, details: InitialViewDetails, view: View) = with(view) {
-
         val shouldAppear = (ratio > appearedUntil).xor(reverse)
         animateAppearance(shouldAppear)
     }
 
     private fun View.animateAppearance(isVisible: Boolean) {
+        val alpha = if (isVisible) alphaForVisibility else 0f
+
+        val prev = hiddenViews.put(this, isVisible)
+        if (prev == isVisible && animationDuration != 0L) {
+            return
+        }
+
         clearAnimation()
-        val alpha = if (isVisible) 1f else 0f
         val animatorListener = object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator?) {
-                if (isVisible) isEnabled = true
+                if (isVisible) {
+                    isEnabled = true
+                }
             }
 
             override fun onAnimationEnd(animation: Animator?) {
@@ -155,4 +180,10 @@ class BRuleAppear(
                 .setDuration(animationDuration)
                 .setListener(animatorListener)
     }
+
+    companion object {
+        private val hiddenViews: WeakHashMap<View, Boolean> = WeakHashMap()
+    }
 }
+
+fun BehaviorRule.workInRange(from: Float, to: Float): BehaviorRule = ThresholdRule(this, from, to)
