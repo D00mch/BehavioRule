@@ -76,8 +76,8 @@ class TopInfoBehavior(
                         BRuleAppear(visibleUntil = GONE_VIEW_THRESHOLD, animationDuration = 100L)
                 ),
                 imagesRuleFunc(ivTop, LinearInterpolator()),
-                imagesRuleFunc(ivTop2, AccelerateInterpolator(0.7f)),
-                imagesRuleFunc(ivTop3, AccelerateInterpolator())
+                imagesRuleFunc(ivTop2, DecelerateInterpolator(0.7f)),
+                imagesRuleFunc(ivTop3, DecelerateInterpolator())
         )
     }
 

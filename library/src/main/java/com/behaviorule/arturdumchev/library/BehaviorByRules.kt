@@ -33,8 +33,9 @@ abstract class BehaviorByRules(
             child: View,
             dependency: View
     ): Boolean {
-        firstInit(child, dependency)
+        if (views.isEmpty()) views = child.setUpViews()
         val progress = calcProgress(parent)
+        tryToInitHeight(child, dependency, progress)
         views.forEach { performRules(offsetView = it, percent = progress) }
         return true
     }
@@ -77,9 +78,9 @@ abstract class BehaviorByRules(
     protected open fun canUpdateHeight(progress: Float): Boolean = true
 
     private fun calcProgress(parent: CoordinatorLayout): Float {
-        val appBar = parent.provideAppbar()
-        val scrollRange = appBar.totalScrollRange.toFloat()
-        val scrollY = Math.abs(appBar.y)
+        val appbar = parent.provideAppbar()
+        val scrollRange = appbar.totalScrollRange.toFloat()
+        val scrollY = Math.abs(appbar.y)
         val scroll = 1 - scrollY / scrollRange
         return when {
             scroll.isNaN() -> 1f
@@ -91,14 +92,10 @@ abstract class BehaviorByRules(
         parent.provideCollapsingToolbar().setHeight(calcAppbarHeight(child))
     }
 
-    private fun firstInit(child: View, dependency: View) {
-        if (needToUpdateHeight) {
+    private fun tryToInitHeight(child: View, dependency: View, scrollPercent: Float) {
+        if (needToUpdateHeight && canUpdateHeight(scrollPercent)) {
             setUpAppbarHeight(child, dependency as ViewGroup)
             needToUpdateHeight = false
-        }
-
-        if (views.isEmpty()) {
-            views = child.setUpViews()
         }
     }
 
