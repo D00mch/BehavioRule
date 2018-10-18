@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.anupamchugh'
 
 android {
     compileSdkVersion compileSdk
@@ -26,8 +28,9 @@ dependencies {
     implementation "com.android.support:design:$supportLib"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    testCompile "junit:junit:4.12"
+    testImplementation "junit:junit:4.12"
 }
+
 repositories {
     mavenCentral()
 }
