@@ -1,5 +1,5 @@
 # BehavioRule
-The way to set up CollapsingToolbarLayout in CoordinatorLayout with custom Behavior
+The way to set up a CollapsingToolbarLayout in the CoordinatorLayout with a custom Behavior
 
 You can read about it on [habr.com](https://habr.com/post/426369/) (in Russian).
 
@@ -117,3 +117,21 @@ RuledVeiw(
 )
 ```
 ```workInRange``` is just a function that wraps your rule with ThresholdRule.
+
+  ## License
+
+```
+Copyright 2017 Artur Dumchev
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
