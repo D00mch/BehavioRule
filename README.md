@@ -7,16 +7,16 @@ You can read about it on [habr.com](https://habr.com/post/426369/) (in Russian).
 
 ## Why
 
-When you typically working with CollaplingToolbar, you are writing behaviors on different views. Some views are located inside CollapsingToolbarLayout and are managed by OnOffsetChangedListener. When other developer (or you some time later) need to update this logic, he (you) will have to check several classes to grasp all the picture, and if your the new logic to implement depends on views from AppbarLayout and outside of it, crutches become to grow.
+When you work with CollaplingToolbar, you are writing behaviors on different views. Some views are located inside CollapsingToolbarLayout and are managed by OnOffsetChangedListener, some views are out. When you need to update this logic, you will have to check several classes to grasp all the picture and it may easily become a spaghetti-code. 
 
-I propose a solution where you have a **declarative way** to describe the collapsing logic **in one class**.
+I propose a solution where you have a _**declarative way**_ to describe the collapsing logic _**in one class**_.
 
 ## Dependencies
 
 Add to your app build.gradle
 
 ```groovy
-implementation 'com.github.Liverm0r:BehavioRule:1.0'
+implementation 'com.github.Liverm0r:BehavioRule:1.0.1'
 ```
 
 You also have to add this in your project build.gradle
@@ -33,13 +33,13 @@ allprojects {
 
 ## Quick usage guide
 
-When you implement some logic for a collapsing toolbar, you have some **rules**. With this solution you need to implement [rules](https://github.com/Liverm0r/BehavioRule/blob/master/library/src/main/java/com/behaviorule/arturdumchev/library/Rules.kt) for each view you want to control. 
+With this solution you need to implement [rules](https://github.com/Liverm0r/BehavioRule/blob/master/library/src/main/java/com/behaviorule/arturdumchev/library/Rules.kt) for each view you want to control. 
 
 For example, if you are to change the alpha channel of your view depending on the Appbar's scroll offset, you will write:
 ```kotlin
 BRuleAlpha(min = 0f, max = 1f)
 ```
-This makes the view invisible, when toolbar is collapsed, and completely visible when stretched. But what if you want your view to be visible on collapse and change alpha to the value of 0.5 when completely stretched? And - lets say - you want an accelerating changes. Easy task:
+This makes the view invisible when toolbar is collapsed, and completely visible when stretched. But what if you want your view to be visible on collapse and change alpha to the value of 0.5 when completely stretched? And - lets say - you want an accelerating changes. Easy task:
 ```kotlin
 BRuleAlpha(
         min = 0f, max = 0.5f,
