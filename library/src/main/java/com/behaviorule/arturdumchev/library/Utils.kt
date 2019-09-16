@@ -1,8 +1,8 @@
 package com.behaviorule.arturdumchev.library
 
 import android.content.Context
-import android.support.annotation.DimenRes
 import android.view.View
+import androidx.annotation.DimenRes
 
 /**
  * Affine transform value form one range into another

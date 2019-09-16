@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -56,7 +56,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_toRightOf="@+id/ivTop3"
-        android:src="@drawable/ic_lens_black_24dp"
+        app:srcCompat="@drawable/ic_lens_black_24dp"
         android:tint="@color/light_teal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTop"/>
@@ -68,7 +68,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/ic_lens_black_24dp"
+        app:srcCompat="@drawable/ic_lens_black_24dp"
         android:tint="@color/light_teal"
         app:layout_constraintStart_toEndOf="@+id/ivTop"
         app:layout_constraintTop_toBottomOf="@+id/tvTop"/>
@@ -80,7 +80,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/ic_lens_black_24dp"
+        app:srcCompat="@drawable/ic_lens_black_24dp"
         android:tint="@color/light_teal"
         app:layout_constraintStart_toEndOf="@+id/ivTop2"
         app:layout_constraintTop_toBottomOf="@+id/tvTop"/>
@@ -97,4 +97,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivTop"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,12 +2,11 @@ package com.behaviorule.arturdumchev.library
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.support.annotation.FloatRange
-import android.support.annotation.IntRange
 import android.view.View
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
-import java.util.*
+import androidx.annotation.FloatRange
+import androidx.annotation.IntRange
 
 /**
  * @author arturdumchev on 13/10/2018.
@@ -40,9 +39,9 @@ interface BRule {
      * @param ratio 0 when toolbar is collapsed
      */
     fun manage(
-            @FloatRange(from = 0.0, to = 1.0) ratio: Float,
-            details: InitialViewDetails,
-            view: View
+        @FloatRange(from = 0.0, to = 1.0) ratio: Float,
+        details: InitialViewDetails,
+        view: View
     )
 }
 
@@ -180,10 +179,10 @@ class BRuleXOffset(
  * @param alphaForVisibility view will appear with this value
  */
 class BRuleAppear(
-        private val visibleUntil: Float,
-        private val reverse: Boolean = false,
-        @IntRange(from = 0) private val animationDuration: Long = 0L,
-        @FloatRange(from = 0.0, to = 1.0) private val alphaForVisibility: Float = 1f
+    private val visibleUntil: Float,
+    private val reverse: Boolean = false,
+    @IntRange(from = 0) private val animationDuration: Long = 0L,
+    @FloatRange(from = 0.0, to = 1.0) private val alphaForVisibility: Float = 1f
 ) : BRule {
 
     private var wasVisible: Boolean? = null

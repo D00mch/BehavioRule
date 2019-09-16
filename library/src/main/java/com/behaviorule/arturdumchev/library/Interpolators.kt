@@ -1,6 +1,6 @@
 package com.behaviorule.arturdumchev.library
 
-import android.support.annotation.FloatRange
+import androidx.annotation.FloatRange
 import android.view.animation.Interpolator
 
 /**
@@ -14,9 +14,9 @@ class ReverseInterpolator(private val interpolator: Interpolator) : Interpolator
  * Use [interpolator] in range from [min] to [max], or return them, if out of range
  */
 class ThresholdInterpolator(
-        @FloatRange(from = 0.0, to = 1.0) private val min: Float,
-        @FloatRange(from = 0.0, to = 1.0) private val max: Float,
-        private val interpolator: Interpolator? = null
+    @FloatRange(from = 0.0, to = 1.0) private val min: Float,
+    @FloatRange(from = 0.0, to = 1.0) private val max: Float,
+    private val interpolator: Interpolator? = null
 ) : Interpolator {
     override fun getInterpolation(input: Float): Float = when {
         input <= min -> min

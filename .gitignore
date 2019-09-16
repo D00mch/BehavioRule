@@ -11,6 +11,7 @@ libraries
 classes
 gen-external-apklibs
 captures
+Project.xml
 
 # built application files
 *.apk

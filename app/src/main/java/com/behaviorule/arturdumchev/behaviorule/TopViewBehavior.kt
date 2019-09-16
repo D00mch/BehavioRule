@@ -1,8 +1,6 @@
 package com.behaviorule.arturdumchev.behaviorule
 
 import android.content.Context
-import android.support.design.widget.AppBarLayout
-import android.support.design.widget.CollapsingToolbarLayout
 import android.util.AttributeSet
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -10,25 +8,19 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
-import com.behaviorule.arturdumchev.library.BRuleAlpha
-import com.behaviorule.arturdumchev.library.BRuleAppear
-import com.behaviorule.arturdumchev.library.BRuleScale
-import com.behaviorule.arturdumchev.library.BRuleXOffset
-import com.behaviorule.arturdumchev.library.BRuleYOffset
-import com.behaviorule.arturdumchev.library.BehaviorByRules
-import com.behaviorule.arturdumchev.library.ReverseInterpolator
-import com.behaviorule.arturdumchev.library.RuledView
-import com.behaviorule.arturdumchev.library.pixels
-import com.behaviorule.arturdumchev.library.workInRange
+import com.behaviorule.arturdumchev.library.*
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.top_view.view.*
+
 
 /**
  * @author arturdumchev on 13/10/2018.
  */
 class TopInfoBehavior(
-        context: Context?,
-        attrs: AttributeSet?
+    context: Context?,
+    attrs: AttributeSet?
 ) : BehaviorByRules(context, attrs) {
 
     override fun calcAppbarHeight(child: View): Int = with(child) {
